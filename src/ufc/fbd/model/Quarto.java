@@ -12,6 +12,11 @@ public class Quarto {
 		this.capacidade = capacidade;
 		this.descricao = descricao;
 	}
+	@Override
+	public String toString() {
+		return "Quarto [numero=" + numero + ", diaria=" + diaria + ", capacidade=" + capacidade + ", descricao="
+				+ descricao + "]";
+	}
 	public int getNumero() {
 		return numero;
 	}
