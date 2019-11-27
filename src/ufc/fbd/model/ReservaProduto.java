@@ -38,6 +38,7 @@ public class ReservaProduto {
 	}
 	public void setData(String data) {
 		SimpleDateFormat dataForm = new SimpleDateFormat("dd/MM/yyyy");
+		this.data  =  Calendar.getInstance();
 		try {
 			this.data.setTime(dataForm.parse(data));
 		} catch (ParseException e) {
@@ -58,5 +59,13 @@ public class ReservaProduto {
 	public void setIdProduto(int idProduto) {
 		this.idProduto = idProduto;
 	}
+	@Override
+	public String toString() {
+		SimpleDateFormat dataForm = new SimpleDateFormat("dd/MM/yyyy");
+		String date = dataForm.format(data.getTime());
+		return "ReservaProduto [idReserva=" + idReserva + ", data=" + date + ", cpfHospede=" + cpfHospede
+				+ ", idProduto=" + idProduto + "]";
+	}
+	
 	
 }

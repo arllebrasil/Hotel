@@ -60,5 +60,12 @@ public class ReservaServico {
 	public void setIdServico(int idServico) {
 		this.idServico = idServico;
 	}
+	@Override
+	public String toString() {
+		SimpleDateFormat dataForm = new SimpleDateFormat("dd/MM/yyyy");
+		String date = dataForm.format(data.getTime());
+		return "ReservaServico [idReserva=" + idReserva + ", data=" + date + ", cpfHospede=" + cpfHospede
+				+ ", idServico=" + idServico + "]";
+	}
 	
 }
