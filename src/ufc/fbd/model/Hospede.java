@@ -8,7 +8,7 @@ import java.util.Calendar;
 public class Hospede {
 	public String cpf;
 	public String nome;
-	public Calendar dataNacimento;
+	public Calendar dataNascimento;
 	public  int endNumero;
 	public  String endBairro;
 	public  String endRua;
@@ -18,7 +18,7 @@ public class Hospede {
 		// TODO Auto-generated constructor stub
 		this.cpf = cpf;
 		this.nome = nome;
-		this.setDataNacimento(dateNasc);
+		this.setDataNascimento(dateNasc);
 		this.endNumero = endNum;
 		this.endBairro = bairro;
 		this.endRua = rua;
@@ -40,28 +40,28 @@ public class Hospede {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	public Calendar getDataNacimento() {
-		return dataNacimento;
+	public Calendar getDataNascimento() {
+		return dataNascimento;
 	}
-	public String showDataNacimento() {
+	public String showDataNascimento() {
 		SimpleDateFormat dateForme = new SimpleDateFormat("dd/MM/yyyy");
-		return dateForme.format(this.dataNacimento.getTime());
+		return dateForme.format(this.dataNascimento.getTime());
 	}
-	public void setDataNacimento(Calendar dataNacimento) {
-		this.dataNacimento = dataNacimento;
+	public void setDataNascimento(Calendar dataNacimento) {
+		this.dataNascimento = dataNacimento;
 	}
-	public void setDataNacimento(String dataNacimento){
-		this.dataNacimento = Calendar.getInstance();
+	public void setDataNascimento(String dataNacimento){
+		this.dataNascimento = Calendar.getInstance();
 		SimpleDateFormat dateForme = new SimpleDateFormat("dd/MM/yyyy");
 		try {
-			this.dataNacimento.setTime(dateForme.parse(dataNacimento));
+			this.dataNascimento.setTime(dateForme.parse(dataNacimento));
 		} catch (ParseException e) {
 			System.out.println("Data não pose ser convertida para calendario");
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return;
 		}
-		System.out.println(dateForme.format(this.dataNacimento.getTime()));	
+		System.out.println(dateForme.format(this.dataNascimento.getTime()));	
 	}
 	public int getEndNumero() {
 		return endNumero;
@@ -93,17 +93,12 @@ public class Hospede {
 	public void setEndCEP(int endCEP) {
 		this.endCEP = endCEP;
 	}
+	@Override
 	public String toString() {
-		return
-		this.cpf+
-		this.nome+
-		this.showDataNacimento()+
-		this.endNumero+
-		this.endRua+
-		this.endBairro+
-		this.endCidade+
-		this.endCEP
-		
-		;
+		SimpleDateFormat dataForm = new SimpleDateFormat("dd/MM/yyyy");
+		String dtNacimento = dataForm.format(dataNascimento.getTime());
+		return "Hospede [cpf=" + cpf + ", nome=" + nome + ", dataNacimento=" + dtNacimento + ", endNumero="
+				+ endNumero + ", endBairro=" + endBairro + ", endRua=" + endRua + ", endCidade=" + endCidade
+				+ ", endCEP=" + endCEP + "]";
 	}
 }

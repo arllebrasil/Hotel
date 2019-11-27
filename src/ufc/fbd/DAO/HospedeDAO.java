@@ -36,7 +36,7 @@ public class HospedeDAO {
 				
 				Calendar calendar = Calendar.getInstance();
 				calendar.setTime(response.getDate("data_nasc"));
-				cliente.setDataNacimento(calendar);
+				cliente.setDataNascimento(calendar);
 				
 				cliente.setEndNumero(response.getInt("end_numero"));
 				cliente.setEndBairro(response.getString("bairro"));
@@ -74,7 +74,7 @@ public class HospedeDAO {
 				
 				Calendar calendar = Calendar.getInstance();
 				calendar.setTime(response.getDate("data_nasc"));
-				cliente.setDataNacimento(calendar);
+				cliente.setDataNascimento(calendar);
 				
 				cliente.setEndNumero(response.getInt("end_numero"));
 				cliente.setEndBairro(response.getString("bairro"));
@@ -103,21 +103,15 @@ public class HospedeDAO {
 	public void delete(Hospede cliente) {
 		// TODO Auto-generated method stub
 		String  query = "delete from hospede where cpf = ?";
-		String  query2 = "delete from telefone where cpf = ?";
 		
 		try {
 			this.com = this.baseCom.getConnection();
 			PreparedStatement stmt1  = this.com.prepareStatement(query);
-			PreparedStatement stmt2  = this.com.prepareStatement(query2);
 			
 			stmt1.setString(1, cliente.getCpf());
-			stmt2.setString(1, cliente.getCpf());
 			
-			int response2 = stmt2.executeUpdate();
 			int response1 = stmt1.executeUpdate();
-			System.out.println(response1);
 			
-			stmt2.close();	
 			stmt1.close();	
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -141,7 +135,7 @@ public class HospedeDAO {
 			stmt.setString(8, cliente.getCpf());
 			stmt.setString(1, cliente.getNome());
 			
-			stmt.setDate(2,new java.sql.Date(cliente.getDataNacimento().getTimeInMillis()));
+			stmt.setDate(2,new java.sql.Date(cliente.getDataNascimento().getTimeInMillis()));
 			stmt.setInt(3,cliente.getEndNumero());
 			stmt.setString(4,cliente.getEndBairro());
 			stmt.setString(5,cliente.getEndRua());
@@ -173,7 +167,7 @@ public class HospedeDAO {
 			stmt.setString(1, cliente.getCpf());
 			stmt.setString(2, cliente.getNome());
 			
-			stmt.setDate(3,new java.sql.Date(cliente.getDataNacimento().getTimeInMillis()));
+			stmt.setDate(3,new java.sql.Date(cliente.getDataNascimento().getTimeInMillis()));
 			stmt.setInt(4,cliente.getEndNumero());
 			stmt.setString(5,cliente.getEndBairro());
 			stmt.setString(6,cliente.getEndRua());
