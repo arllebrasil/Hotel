@@ -9,33 +9,34 @@ import java.util.Calendar;
 
 import ufc.fbd.config.FbdConnection;
 import ufc.fbd.model.ReservaProduto;
+import ufc.fbd.model.ReservaServico;
 
-public class ReservaProdutoDAO {
+public class ReservaServicoDAO {
 	private Connection com;
 	private FbdConnection baseCom;
-	public ReservaProdutoDAO(FbdConnection fbdConnection) {
+	public ReservaServicoDAO(FbdConnection fbdConnection) {
 		this.baseCom = fbdConnection;
 	}
-	public ArrayList<ReservaProduto> find(){
-		String query = "select * from reserva_produto";
-		ArrayList<ReservaProduto> allReservaPro = new ArrayList<ReservaProduto>();
+	public ArrayList<ReservaServico> find(){
+		String query = "select * from reserva_servico";
+		ArrayList<ReservaServico> allReservaServ = new ArrayList<ReservaServico>();
 		try {
 			this.com = this.baseCom.getConnection();
 			PreparedStatement stmt = this.com.prepareStatement(query);
 			ResultSet response = stmt.executeQuery();
 			
 			while (response.next()) {
-				ReservaProduto reservaPro = new ReservaProduto();
+				ReservaServico reservaServ = new ReservaServico();
 
-				reservaPro.setIdReserva(response.getInt("id_reserva"));
-				reservaPro.setCpfHospede(response.getString("cpf_hospede"));
+				reservaServ.setIdReserva(response.getInt("id_reserva"));
 				
 				Calendar data = Calendar.getInstance();
 				data.setTime(response.getDate("data"));
-				reservaPro.setData(data);
+				reservaServ.setData(data);
 				
-				reservaPro.setIdProduto(response.getInt("id_produto"));
-				allReservaPro.add(reservaPro);
+				reservaServ.setCpfHospede(response.getString("cpf_hospede"));
+				reservaServ.setIdServico(response.getInt("id_servico"));
+				allReservaServ.add(reservaServ);
 			}
 			response.close();
 			stmt.close();
@@ -50,20 +51,20 @@ public class ReservaProdutoDAO {
 				e.printStackTrace();
 			}
 		}
-		return allReservaPro;
+		return allReservaServ;
 	}
-	public void create(ReservaProduto reservaProduto) {
-		String query = "insert into reserva_produto values (?,?,?,?)";
+	public void create(ReservaServico reservaServico) {
+		String query = "insert into reserva_servico values (?,?,?,?)";
 		try {
 			this.com = this.baseCom.getConnection();
 			PreparedStatement stmt = this.com.prepareStatement(query);
 			
-			stmt.setInt(1, reservaProduto.getIdReserva());
-			stmt.setDate(2,new java.sql.Date(reservaProduto.getData().getTimeInMillis()));
-			stmt.setString(3,reservaProduto.getCpfHospede());		
-			stmt.setInt(4,reservaProduto.getIdProduto());
-			int response = stmt.executeUpdate();
+			stmt.setInt(1, reservaServico.getIdReserva());
+			stmt.setDate(2,new java.sql.Date(reservaServico.getData().getTimeInMillis()));
+			stmt.setString(3,reservaServico.getCpfHospede());		
+			stmt.setInt(4,reservaServico.getIdServico());
 			
+			int response = stmt.executeUpdate();
 			stmt.close();
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -77,27 +78,25 @@ public class ReservaProdutoDAO {
 			}
 		}
 	}
-	public void update(ReservaProduto oldReservaProduto,ReservaProduto newReservaPro) {
-		String setQuery = "update reserva_produto set  id_reserva = ? , cpf_hospede = ?, data = ?, id_produto = ? ";
-		String whereQuery = "where id_reserva = ? and cpf_hospede = ? and data = ? and id_produto = ?";
+	public void update(ReservaServico oldReservaServico,ReservaServico newReservaServico) {
+		String setQuery = "update reserva_servico set  id_reserva = ? , cpf_hospede = ?, data = ?, id_servico = ? ";
+		String whereQuery = "where id_reserva = ? and cpf_hospede = ? and data = ? and id_servico = ?";
 		String query = setQuery+whereQuery;
 		try {
 			this.com = this.baseCom.getConnection();
 			PreparedStatement stmt = this.com.prepareStatement(query);
 			
-			stmt.setInt(1, newReservaPro.getIdReserva());
-			stmt.setString(2,newReservaPro.getCpfHospede());
-			stmt.setDate(3,new java.sql.Date(newReservaPro.getData().getTimeInMillis()));
-			stmt.setInt(4,newReservaPro.getIdProduto());
+			stmt.setInt(1, newReservaServico.getIdReserva());
+			stmt.setString(2,newReservaServico.getCpfHospede());
+			stmt.setDate(3,new java.sql.Date(newReservaServico.getData().getTimeInMillis()));
+			stmt.setInt(4,newReservaServico.getIdServico());
 			
-			stmt.setInt(5, oldReservaProduto.getIdReserva());
-			stmt.setString(6,oldReservaProduto.getCpfHospede());
-			stmt.setDate(7,new java.sql.Date(oldReservaProduto.getData().getTimeInMillis()));
-			stmt.setInt(8,oldReservaProduto.getIdProduto());
+			stmt.setInt(5, oldReservaServico.getIdReserva());
+			stmt.setString(6,oldReservaServico.getCpfHospede());
+			stmt.setDate(7,new java.sql.Date(oldReservaServico.getData().getTimeInMillis()));
+			stmt.setInt(8,oldReservaServico.getIdServico());
 			
-
 			int response = stmt.executeUpdate();
-			
 			stmt.close();
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -111,16 +110,16 @@ public class ReservaProdutoDAO {
 			}
 		}
 	}
-	public void delete(ReservaProduto oldReservaProduto) {
-		String query = "delete from reserva_produto where id_reserva = ? and cpf_hospede = ? and data = ? and id_produto = ? ";
+	public void delete(ReservaServico oldReservaServico) {
+		String query = "delete from reserva_servico where id_reserva = ? and cpf_hospede = ? and data = ? and id_servico = ? ";
 		try {
 			this.com = this.baseCom.getConnection();
 			PreparedStatement stmt = this.com.prepareStatement(query);
 			
-			stmt.setInt(1, oldReservaProduto.getIdReserva());
-			stmt.setString(2,oldReservaProduto.getCpfHospede());
-			stmt.setDate(3,new java.sql.Date(oldReservaProduto.getData().getTimeInMillis()));
-			stmt.setInt(4,oldReservaProduto.getIdProduto());
+			stmt.setInt(1, oldReservaServico.getIdReserva());
+			stmt.setString(2,oldReservaServico.getCpfHospede());
+			stmt.setDate(3,new java.sql.Date(oldReservaServico.getData().getTimeInMillis()));
+			stmt.setInt(4,oldReservaServico.getIdServico());
 			
 			int response = stmt.executeUpdate();
 			stmt.close();

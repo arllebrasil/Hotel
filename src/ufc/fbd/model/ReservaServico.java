@@ -40,6 +40,7 @@ public class ReservaServico {
 	}
 	public void setData(String data) {
 		SimpleDateFormat dataForm = new SimpleDateFormat("dd/MM/yyyy");
+		this.data = Calendar.getInstance();
 		try {
 			this.data.setTime(dataForm.parse(data));
 		} catch (ParseException e) {
