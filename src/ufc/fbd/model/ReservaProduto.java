@@ -13,7 +13,7 @@ public class ReservaProduto {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public ReservaProduto(int idReserva, String data, String cpfHospede, int idProduto) {
+	public ReservaProduto(int idReserva,String data,String cpfHospede,int idProduto) {
 		super();
 		this.idReserva = idReserva;
 		this.setData(data);
