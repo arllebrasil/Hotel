@@ -48,6 +48,37 @@ public class QuartoDAO {
 		}
 		return allQuarto;
 	}
+	public Quarto findOne(int id){
+		String query = "select * from quarto where num_quarto = ?";
+		Quarto quarto = null;	
+		try {
+			this.com = this.baseCom.getConnection();
+			PreparedStatement stmt = com.prepareStatement(query);
+			stmt.setInt(1,id);
+			ResultSet response = stmt.executeQuery();
+			
+			if(response.next()) {
+				quarto = new Quarto();
+				quarto.setNumero(response.getInt("num_quarto"));
+				quarto.setDiaria(response.getDouble("diaria"));
+				quarto.setCapacidade(response.getInt("capacidade"));
+				quarto.setDescricao(response.getString("descricao"));
+				
+				response.close();
+				stmt.close();
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}finally {
+			try {
+				this.com.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return quarto;
+	}
 	public ArrayList<Quarto> find(Quarto quarto){
 		String query = "select * from quarto where num_quarto = ? or diaria = ? or capacidade = ? or descricao = ?";
 		ArrayList<Quarto> allQuarto  = new ArrayList<Quarto>();
