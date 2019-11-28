@@ -48,6 +48,38 @@ public class ServicoDAO {
 		}
 		return allServico;
 	}
+	public Servico findOne(int id_servico) {
+		// TODO Auto-generated method stub
+		String  query = "select * from servico where id_servico = ?";
+		Servico  servico = null;
+		ArrayList<Servico> allServico = new ArrayList<Servico>();
+		try {
+			this.com = this.baseCom.getConnection();
+			PreparedStatement stmt = this.com.prepareStatement(query);
+			stmt.setInt(1,id_servico);
+			ResultSet response = stmt.executeQuery();
+			
+			if (response.next()) {
+				servico = new Servico();
+				
+				servico.setIdServico(response.getInt("id_servico"));
+				servico.setPreco(response.getDouble("preco"));
+				servico.setDescricao(response.getString("descricao"));
+			}
+			response.close();
+			stmt.close();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}finally {
+			try {
+				this.com.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return servico;
+	}
 	public void create(Servico servico) {
 		String  query = "insert into servico values (?,?,?)";
 		try {

@@ -48,6 +48,38 @@ public class ProdutoDAO {
 		}
 		return allProduto;
 	}
+	public Produto findOne(int id) {
+		// TODO Auto-generated method stub
+		String  query = "select * from produto where id_produto = ?";
+		Produto produto = null;
+		try {
+			this.com = this.baseCom.getConnection();
+			PreparedStatement stmt = this.com.prepareStatement(query);
+			stmt.setInt(1,id);
+			ResultSet response = stmt.executeQuery();
+			
+			if (response.next()) {
+				produto = new Produto();
+				
+				produto.setIdProduto(response.getInt("id_produto"));
+				produto.setPreco(response.getDouble("preco"));
+				produto.setNome(response.getString("nome"));
+				
+			}
+			response.close();
+			stmt.close();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}finally {
+			try {
+				this.com.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return produto;
+	}
 	public void create(Produto produto) {
 		String  query = "insert into Produto values (?,?,?)";
 		try {

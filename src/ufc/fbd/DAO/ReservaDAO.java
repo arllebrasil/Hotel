@@ -48,6 +48,35 @@ public class ReservaDAO {
 		
 		return allReserva;	
 	}
+	public Reserva findOne(int id){
+		String query = "select * from reserva  where id_reserva  = ?";
+		Reserva reserva = null;
+		try {
+			this.com = this.baseCom.getConnection();
+			PreparedStatement stmt = com.prepareStatement(query);
+			stmt.setInt(1,id);
+			ResultSet response = stmt.executeQuery();
+			if (response.next()) {
+				reserva = new Reserva();
+				reserva.setIdReserva(response.getInt("id_reserva"));
+				reserva.setCpfHospede(response.getString("cpf_hospede"));
+				reserva.setIdReserva(response.getInt("id_quarto"));	
+			}
+			response.close();
+			stmt.close();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}finally {
+			try {
+				this.com.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		return reserva;	
+	}
 	public void create(Reserva reserva){
 		String query = "insert into reserva values (?,?,?)";	
 		try {
