@@ -20,13 +20,14 @@ public class HospedeDAO {
 		this.baseCom = fbdConnection;
 	}
 
-	public Hospede findOne(String userId){
-		String fintStr = "select * from hospede where cpf = ?";
+	public Hospede findOne(String cpfH,String nome){
+		String fintStr = "select * from hospede where cpf = ? or nome = ?";
 		Hospede cliente = null;
 		try {
 			this.com = baseCom.getConnection();
 			PreparedStatement stmt = com.prepareStatement(fintStr);
-			stmt.setString(1,userId);
+			stmt.setString(1,cpfH);
+			stmt.setString(2, nome);
 			ResultSet response = stmt.executeQuery();
 			
 			if(response.next()){
