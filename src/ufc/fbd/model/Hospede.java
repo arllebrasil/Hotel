@@ -61,7 +61,7 @@ public class Hospede {
 			e.printStackTrace();
 			return;
 		}
-		System.out.println(dateForme.format(this.dataNascimento.getTime()));	
+		//System.out.println(dateForme.format(this.dataNascimento.getTime()));	
 	}
 	public int getEndNumero() {
 		return endNumero;

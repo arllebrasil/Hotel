@@ -20,13 +20,14 @@ public class HospedeDAO {
 		this.baseCom = fbdConnection;
 	}
 
-	public Hospede findOne(String userId){
-		String fintStr = "select * from hospede where cpf = ?";
+	public Hospede findOne(String cpfH,String nome){
+		String fintStr = "select * from hospede where cpf = ? or nome = ?";
 		Hospede cliente = null;
 		try {
 			this.com = baseCom.getConnection();
 			PreparedStatement stmt = com.prepareStatement(fintStr);
-			stmt.setString(1,userId);
+			stmt.setString(1,cpfH);
+			stmt.setString(2, nome);
 			ResultSet response = stmt.executeQuery();
 			
 			if(response.next()){
@@ -126,21 +127,22 @@ public class HospedeDAO {
 		}
 	}
 
-	public void update(Hospede cliente) {
+	public void update(Hospede old,Hospede new0) {
 		// TODO Auto-generated method stub
-		String  query = "update hospede set nome = ?, data_nasc = ?,end_numero = ?, bairro= ?, rua= ?,cidade= ?, cep= ? where cpf = ?";
+		String  query = "update hospede set nome = ?, data_nasc = ?,end_numero = ?, bairro= ?, rua= ?,cidade= ?, cep= ? where cpf = ?  and nome = ?";
 		try {
 			this.com = this.baseCom.getConnection();
 			PreparedStatement stmt  = this.com.prepareStatement(query);
-			stmt.setString(8, cliente.getCpf());
-			stmt.setString(1, cliente.getNome());
+			stmt.setString(8, old.getCpf());
+			stmt.setString(9,old.getNome());
+			stmt.setString(1, new0.getNome());
 			
-			stmt.setDate(2,new java.sql.Date(cliente.getDataNascimento().getTimeInMillis()));
-			stmt.setInt(3,cliente.getEndNumero());
-			stmt.setString(4,cliente.getEndBairro());
-			stmt.setString(5,cliente.getEndRua());
-			stmt.setString(6,cliente.getEndCidade());
-			stmt.setInt(7,cliente.endCEP);
+			stmt.setDate(2,new java.sql.Date(new0.getDataNascimento().getTimeInMillis()));
+			stmt.setInt(3,new0.getEndNumero());
+			stmt.setString(4,new0.getEndBairro());
+			stmt.setString(5,new0.getEndRua());
+			stmt.setString(6,new0.getEndCidade());
+			stmt.setInt(7,new0.endCEP);
 			
 			int response = stmt.executeUpdate();
 			System.out.println(response);
