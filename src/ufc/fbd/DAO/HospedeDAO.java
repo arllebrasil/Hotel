@@ -61,7 +61,6 @@ public class HospedeDAO {
 	}
 	public ArrayList<Hospede> find(){
 		ArrayList<Hospede> allClientes = new ArrayList<Hospede>();
-		Hospede cliente;
 		String query = "select * from hospede";
 		
 		try {
@@ -69,7 +68,7 @@ public class HospedeDAO {
 			PreparedStatement stmt  = this.com.prepareStatement(query);
 			ResultSet response = stmt.executeQuery();
 			while (response.next()) {
-				cliente = new Hospede();
+				Hospede cliente = new Hospede();
 				cliente.setCpf(response.getString("cpf"));
 				cliente.setNome(response.getString("nome"));
 				
@@ -89,6 +88,7 @@ public class HospedeDAO {
 			stmt.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
+			System.out.println("ERRO"+e);
 			e.printStackTrace();
 		}finally {
 			try {
@@ -101,18 +101,17 @@ public class HospedeDAO {
 		return allClientes;	
 	}
 
-	public void delete(Hospede cliente) {
+	public int delete(Hospede cliente) {
 		// TODO Auto-generated method stub
 		String  query = "delete from hospede where cpf = ?";
+		int response = 0;
 		
 		try {
 			this.com = this.baseCom.getConnection();
 			PreparedStatement stmt1  = this.com.prepareStatement(query);
-			
 			stmt1.setString(1, cliente.getCpf());
 			
-			int response1 = stmt1.executeUpdate();
-			
+			response = stmt1.executeUpdate();
 			stmt1.close();	
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -125,11 +124,13 @@ public class HospedeDAO {
 				e.printStackTrace();
 			}
 		}
+		return response;
 	}
 
-	public void update(Hospede old,Hospede new0) {
+	public int update(Hospede old,Hospede new0) {
 		// TODO Auto-generated method stub
 		String  query = "update hospede set nome = ?, data_nasc = ?,end_numero = ?, bairro= ?, rua= ?,cidade= ?, cep= ? where cpf = ?  and nome = ?";
+		int response = 0;
 		try {
 			this.com = this.baseCom.getConnection();
 			PreparedStatement stmt  = this.com.prepareStatement(query);
@@ -144,7 +145,7 @@ public class HospedeDAO {
 			stmt.setString(6,new0.getEndCidade());
 			stmt.setInt(7,new0.endCEP);
 			
-			int response = stmt.executeUpdate();
+			response = stmt.executeUpdate();
 			System.out.println(response);
 			stmt.close();			
 		} catch (SQLException e) {
@@ -158,11 +159,13 @@ public class HospedeDAO {
 				e.printStackTrace();
 			}
 		}
+		return response;
 	}
 
-	public void create(Hospede cliente) {
+	public int create(Hospede cliente) {
 		// TODO Auto-generated method stub
 		String query = "insert into hospede values (?,?,?,?,?,?,?,?)";
+		int response = 0;
 		try {
 			this.com = this.baseCom.getConnection();
 			PreparedStatement stmt  = this.com.prepareStatement(query);
@@ -176,11 +179,11 @@ public class HospedeDAO {
 			stmt.setString(7,cliente.getEndCidade());
 			stmt.setInt(8,cliente.endCEP);
 			
-			int response = stmt.executeUpdate();
-			System.out.println(response);
+			response = stmt.executeUpdate();
 			stmt.close();			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
+			System.out.println("ERRO de inserção"+e);
 			e.printStackTrace();
 		}finally {
 			try {
@@ -190,5 +193,6 @@ public class HospedeDAO {
 				e.printStackTrace();
 			}
 		}
+		return response;
 	}
 }

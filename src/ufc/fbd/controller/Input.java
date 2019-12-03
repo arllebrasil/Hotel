@@ -1,3 +1,4 @@
+
 package ufc.fbd.controller;
 
 import java.util.ArrayList;
@@ -8,6 +9,7 @@ import ufc.fbd.model.HospedeReserva;
 import ufc.fbd.model.Produto;
 import ufc.fbd.model.Quarto;
 import ufc.fbd.model.Reserva;
+import ufc.fbd.model.ReservaCompleta;
 import ufc.fbd.model.ReservaProduto;
 import ufc.fbd.model.ReservaServico;
 import ufc.fbd.model.Servico;
@@ -79,7 +81,7 @@ public class Input {
         
         // Endereço - cep
         int cep;
-        System.out.print("Digite o número da casa onde moras:");
+        System.out.print("Digite o CEP onde moras:");
         Scanner ceps = new Scanner(System.in);
         String cepv = end_numeros.nextLine();
         if(cepv.trim().isEmpty()){
@@ -98,7 +100,7 @@ public class Input {
     	String telefone;
     	String cpf;
     	do {
-    		System.out.print("Digite o número do telefone e o CPF do Hospede: (Para sair apenas pressione enter)\n");
+    		System.out.print("Digite o número do TELEFONE e o CPF do Hospede: (Para sair apenas pressione enter)\n");
     		Scanner input = new Scanner(System.in);
     		telefone =input.nextLine();
     		cpf = input.nextLine();

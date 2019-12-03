@@ -115,8 +115,9 @@ public class QuartoDAO {
 		}
 		return allQuarto;
 	}
-	public void delete(Quarto quarto){
+	public int delete(Quarto quarto){
 		String query = "delete from quarto where num_quarto = ? or (diaria = ? and capacidade = ? and descricao = ?)";	
+		int response = 0;
 		try {
 			this.com = this.baseCom.getConnection();
 			PreparedStatement stmt = com.prepareStatement(query);
@@ -126,7 +127,7 @@ public class QuartoDAO {
 			stmt.setInt(3,quarto.getCapacidade());
 			stmt.setString(4,quarto.getDescricao());
 			
-			int response = stmt.executeUpdate();
+			response = stmt.executeUpdate();
 			stmt.close();
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -138,9 +139,11 @@ public class QuartoDAO {
 				e.printStackTrace();
 			}
 		}
+		return response;
 	}
-	public void create(Quarto quarto) {
+	public int create(Quarto quarto) {
 		String query = "insert into quarto values (?,?,?,?)";
+		int response = 0;
 		try {
 			this.com = this.baseCom.getConnection();
 			PreparedStatement stmt = com.prepareStatement(query);
@@ -150,12 +153,13 @@ public class QuartoDAO {
 			stmt.setInt(3,quarto.getCapacidade());
 			stmt.setString(4,quarto.getDescricao());
 			
-			int response = stmt.executeUpdate();
+			response = stmt.executeUpdate();
 			String ms = (response <= 0)?"quarto ja existe":"cadatros realizados:"+response;
 			System.out.println(ms);
 			stmt.close();
 		} catch (Exception e) {
 			// TODO: handle exception
+			System.out.println("ERRO de inserção:"+e);
 		}finally {
 			try {
 				this.com.close();
@@ -164,9 +168,11 @@ public class QuartoDAO {
 				e.printStackTrace();
 			}
 		}
+		return response;
 	}
-	public void update(Quarto quarto) {
+	public int update(Quarto quarto) {
 		String query = "update quarto set diaria = ?, capacidade = ?,descricao = ? where num_quarto = ?";
+		int response = 0;
 		try {
 			this.com = this.baseCom.getConnection();
 			PreparedStatement stmt = com.prepareStatement(query);
@@ -176,7 +182,7 @@ public class QuartoDAO {
 			stmt.setInt(2,quarto.getCapacidade());
 			stmt.setString(3,quarto.getDescricao());
 			
-			int response = stmt.executeUpdate();
+			response = stmt.executeUpdate();
 			String ms = (response <= 0)?"quarto ja existe":"cadatros atualizados:"+response;
 			System.out.println(ms);
 			stmt.close();
@@ -190,6 +196,7 @@ public class QuartoDAO {
 				e.printStackTrace();
 			}
 		}
+		return response;
 	}
 
 }
