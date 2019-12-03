@@ -38,6 +38,7 @@ public class ProdutoDAO {
 			stmt.close();
 		} catch (Exception e) {
 			// TODO: handle exception
+			System.out.println("ERRO:"+e);
 		}finally {
 			try {
 				this.com.close();
@@ -70,6 +71,7 @@ public class ProdutoDAO {
 			stmt.close();
 		} catch (Exception e) {
 			// TODO: handle exception
+			System.out.println("ERRO:"+e);
 		}finally {
 			try {
 				this.com.close();
@@ -80,8 +82,9 @@ public class ProdutoDAO {
 		}
 		return produto;
 	}
-	public void create(Produto produto) {
+	public int create(Produto produto) {
 		String  query = "insert into Produto values (?,?,?)";
+		int response = 0;
 		try {
 			this.com = this.baseCom.getConnection();
 			PreparedStatement stmt = this.com.prepareStatement(query);
@@ -90,10 +93,11 @@ public class ProdutoDAO {
 			stmt.setDouble(2,produto.getPreco());
 			stmt.setString(3,produto.getNome());
 			
-			int response = stmt.executeUpdate();		
+			response = stmt.executeUpdate();		
 			stmt.close();
 		} catch (Exception e) {
 			// TODO: handle exception
+			System.out.println("ERRO:"+e);
 		}finally {
 			try {
 				this.com.close();
@@ -102,9 +106,11 @@ public class ProdutoDAO {
 				e.printStackTrace();
 			}
 		}
+		return response;
 	}
-	public void update(Produto produto) {
-		String  query = "update produto set preco = ?, nome = ? where id_pruduto = ?";
+	public int update(Produto produto) {
+		String  query = "update produto set preco = ?, nome = ? where id_produto = ?";
+		int response = 0;
 		try {
 			this.com = this.baseCom.getConnection();
 			PreparedStatement stmt = this.com.prepareStatement(query);
@@ -113,10 +119,11 @@ public class ProdutoDAO {
 			stmt.setDouble(1,produto.getPreco());
 			stmt.setString(2,produto.getNome());
 			
-			int response = stmt.executeUpdate();		
+			response = stmt.executeUpdate();		
 			stmt.close();
 		} catch (Exception e) {
 			// TODO: handle exception
+			System.out.println("ERRO:"+e);
 		}finally {
 			try {
 				this.com.close();
@@ -125,9 +132,11 @@ public class ProdutoDAO {
 				e.printStackTrace();
 			}
 		}
+		return response;
 	}
-	public void delete(Produto produto) {
+	public int delete(Produto produto) {
 		String  query = "delete from produto where id_produto = ? or (preco = ? and nome = ?)";
+		int response = 0;
 		try {
 			this.com = this.baseCom.getConnection();
 			PreparedStatement stmt = this.com.prepareStatement(query);
@@ -136,10 +145,11 @@ public class ProdutoDAO {
 			stmt.setDouble(2,produto.getPreco());
 			stmt.setString(3,produto.getNome());
 			
-			int response = stmt.executeUpdate();		
+			response = stmt.executeUpdate();		
 			stmt.close();
 		} catch (Exception e) {
 			// TODO: handle exception
+			System.out.println("ERRO:"+e);
 		}finally {
 			try {
 				this.com.close();
@@ -148,5 +158,6 @@ public class ProdutoDAO {
 				e.printStackTrace();
 			}
 		}
+		return response;
 	}
 }

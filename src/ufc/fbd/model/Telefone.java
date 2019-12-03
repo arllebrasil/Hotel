@@ -1,8 +1,15 @@
 package ufc.fbd.model;
 
 public class Telefone {
+	public String nome;
 	public String cpf;
 	public String telefone;
+	public String getNome() {
+		return nome;
+	}
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
 	public String getCpf() {
 		return cpf;
 	}
@@ -23,7 +30,9 @@ public class Telefone {
 	public Telefone() {
 		// TODO Auto-generated constructor stub
 	}
+	@Override
 	public String toString() {
-		return this.cpf+" "+this.telefone;
+		return "Telefone [nome=" + nome + ", cpf=" + cpf + ", telefone=" + telefone + "]";
 	}
+	
 }

@@ -7,9 +7,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import ufc.fbd.config.FbdConnection;
 import ufc.fbd.model.Reserva;
+import ufc.fbd.model.ReservaCompleta;
 
 public class ReservaDAO {
 	private Connection com;
@@ -18,19 +20,30 @@ public class ReservaDAO {
 		// TODO Auto-generated constructor stub
 		this.baseCom = fbdConnection;
 	}
-	public ArrayList<Reserva> find(){
-		String query = "select * from reserva";
-		ArrayList<Reserva> allReserva = new ArrayList<Reserva>();
+	public ArrayList<ReservaCompleta> find(){
+		String query = "select * from reserva_completa";
+		ArrayList<ReservaCompleta> allReserva = new ArrayList<ReservaCompleta>();
 		
 		try {
 			this.com = this.baseCom.getConnection();
 			PreparedStatement stmt = com.prepareStatement(query);
 			ResultSet response = stmt.executeQuery();
 			while (response.next()) {
-				Reserva reserva = new Reserva();
+				ReservaCompleta reserva = new ReservaCompleta();
 				reserva.setIdReserva(response.getInt("id_reserva"));
-				reserva.setCpfHospede(response.getString("cpf_hospede"));
-				reserva.setIdReserva(response.getInt("id_quarto"));
+				reserva.setNome(response.getString("nome"));
+				reserva.setCpfHospede(response.getString("cpf"));
+				reserva.setQuartoId(response.getInt("num_quarto"));
+				reserva.setDiaria(response.getDouble("diaria"));
+				
+				Calendar calendar = Calendar.getInstance();
+				calendar.setTime(response.getDate("data_inicio"));
+				reserva.setInicioData(calendar);
+				
+				Calendar calendar2  = Calendar.getInstance();
+				calendar2.setTime(response.getDate("data_fim"));
+				reserva.setFimData(calendar2);
+				
 				allReserva.add(reserva);
 			}
 			response.close();
@@ -77,8 +90,10 @@ public class ReservaDAO {
 		
 		return reserva;	
 	}
-	public void create(Reserva reserva){
-		String query = "insert into reserva values (?,?,?)";	
+	public int create(Reserva reserva){
+		String query = "insert into reserva values (?,?,?)";
+		int response = 0;
+		
 		try {
 			this.com = this.baseCom.getConnection();
 			PreparedStatement stmt = com.prepareStatement(query);
@@ -87,12 +102,11 @@ public class ReservaDAO {
 			stmt.setString(2, reserva.getCpfHospede());
 			stmt.setInt(3, reserva.getIdQuarto());
 			
-			int response = stmt.executeUpdate();
-			
-			System.out.println("Reservas Inseridas "+ response);
+			response = stmt.executeUpdate();
 			stmt.close();
 		} catch (Exception e) {
 			// TODO: handle exception
+			System.out.println("ERRO de inserção:"+e);
 		}finally {
 			try {
 				this.com.close();
@@ -101,23 +115,25 @@ public class ReservaDAO {
 				e.printStackTrace();
 			}
 		}
+		return response;
 	}
-	public void update(Reserva reserva){
-		String query = "update reserva set cpf_hospede = ?, id_quarto where id_reserva = ?";	
+	public int update(Reserva reserva){
+		String query = "update reserva set cpf_hospede = ?, id_quarto = ? where id_reserva = ? and cpf_hospede = ?";
+		int response = 0;
 		try {
 			this.com = this.baseCom.getConnection();
 			PreparedStatement stmt = com.prepareStatement(query);
 			
 			stmt.setInt(3, reserva.getIdReserva());
+			stmt.setString(4, reserva.getCpfHospede());
 			stmt.setString(1, reserva.getCpfHospede());
 			stmt.setInt(2, reserva.getIdQuarto());
 			
-			int response = stmt.executeUpdate();
-			
-			System.out.println("Reservas Inseridas "+ response);
+			response = stmt.executeUpdate();
 			stmt.close();
 		} catch (Exception e) {
 			// TODO: handle exception
+			System.out.println("ERRO na alterção"+e);
 		}finally {
 			try {
 				this.com.close();
@@ -126,9 +142,11 @@ public class ReservaDAO {
 				e.printStackTrace();
 			}
 		}
+		return response;
 	}
-	public void delete(Reserva reserva){
-		String query = "delete from reserva where id_reserva = ? and cpf_hospede = ? and id_ quarto = ?";	
+	public int delete(Reserva reserva){
+		String query = "delete from reserva where id_reserva = ? and cpf_hospede = ? and id_quarto = ?";
+		int response = 0;
 		try {
 			this.com = this.baseCom.getConnection();
 			PreparedStatement stmt = com.prepareStatement(query);
@@ -137,12 +155,11 @@ public class ReservaDAO {
 			stmt.setString(2, reserva.getCpfHospede());
 			stmt.setInt(3, reserva.getIdQuarto());
 			
-			int response = stmt.executeUpdate();
-			
-			System.out.println("Reservas Inseridas "+ response);
+			response = stmt.executeUpdate();
 			stmt.close();
 		} catch (Exception e) {
 			// TODO: handle exception
+			System.out.println("ERRO de remoção:"+e);
 		}finally {
 			try {
 				this.com.close();
@@ -151,5 +168,6 @@ public class ReservaDAO {
 				e.printStackTrace();
 			}
 		}
+		return response;
 	}
 }

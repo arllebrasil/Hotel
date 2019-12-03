@@ -38,6 +38,7 @@ public class ServicoDAO {
 			stmt.close();
 		} catch (Exception e) {
 			// TODO: handle exception
+			System.out.println("ERRO:"+e);
 		}finally {
 			try {
 				this.com.close();
@@ -70,6 +71,7 @@ public class ServicoDAO {
 			stmt.close();
 		} catch (Exception e) {
 			// TODO: handle exception
+			System.out.println("ERRO:"+e);
 		}finally {
 			try {
 				this.com.close();
@@ -80,8 +82,9 @@ public class ServicoDAO {
 		}
 		return servico;
 	}
-	public void create(Servico servico) {
+	public int create(Servico servico) {
 		String  query = "insert into servico values (?,?,?)";
+		int response = 0;
 		try {
 			this.com = this.baseCom.getConnection();
 			PreparedStatement stmt = this.com.prepareStatement(query);
@@ -90,7 +93,7 @@ public class ServicoDAO {
 			stmt.setDouble(2,servico.getPreco());
 			stmt.setString(3,servico.getDescricao());
 			
-			int response = stmt.executeUpdate();		
+			response = stmt.executeUpdate();		
 			stmt.close();
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -102,9 +105,11 @@ public class ServicoDAO {
 				e.printStackTrace();
 			}
 		}
+		return response;
 	}
-	public void update(Servico servico) {
+	public int update(Servico servico) {
 		String  query = "update servico set preco = ?, descricao = ? where id_servico = ?";
+		int response = 0;
 		try {
 			this.com = this.baseCom.getConnection();
 			PreparedStatement stmt = this.com.prepareStatement(query);
@@ -113,9 +118,10 @@ public class ServicoDAO {
 			stmt.setDouble(1,servico.getPreco());
 			stmt.setString(2,servico.getDescricao());
 			
-			int response = stmt.executeUpdate();		
+			response = stmt.executeUpdate();		
 			stmt.close();
 		} catch (Exception e) {
+			System.out.println("ERRO:"+e);
 			// TODO: handle exception
 		}finally {
 			try {
@@ -125,9 +131,11 @@ public class ServicoDAO {
 				e.printStackTrace();
 			}
 		}
+		return response;
 	}
-	public void delete(Servico servico) {
+	public int delete(Servico servico) {
 		String  query = "delete from servico where id_servico = ? or (preco = ? and descricao = ?)";
+		int response = 0;
 		try {
 			this.com = this.baseCom.getConnection();
 			PreparedStatement stmt = this.com.prepareStatement(query);
@@ -136,10 +144,11 @@ public class ServicoDAO {
 			stmt.setDouble(2,servico.getPreco());
 			stmt.setString(3,servico.getDescricao());
 			
-			int response = stmt.executeUpdate();		
+			response = stmt.executeUpdate();		
 			stmt.close();
 		} catch (Exception e) {
 			// TODO: handle exception
+			System.out.println("ERRO:"+e);
 		}finally {
 			try {
 				this.com.close();
@@ -148,5 +157,6 @@ public class ServicoDAO {
 				e.printStackTrace();
 			}
 		}
+		return response;
 	}
 }

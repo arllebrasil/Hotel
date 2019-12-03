@@ -56,8 +56,9 @@ public class HospedeReservaDAO {
 		}
 		return allHospedeReservas;
 	}
-	public void create(HospedeReserva hospedeReserva){
+	public int create(HospedeReserva hospedeReserva){
 		String query = "insert into hospede_reserva values (?,?,?,?)";
+		int response = 0;
 		
 		try {
 			this.com = this.baseCom.getConnection();
@@ -68,12 +69,12 @@ public class HospedeReservaDAO {
 			stmt.setDate(3, new java.sql.Date(hospedeReserva.getInicioData().getTimeInMillis()));
 			stmt.setDate(4, new java.sql.Date(hospedeReserva.getFimData().getTimeInMillis()));
 			
-			int response = stmt.executeUpdate();
+			response = stmt.executeUpdate();
 			
 			stmt.close();
 		} catch (Exception e) {
 			// TODO: handle exception
-			System.out.println("ERRO"+e);
+			System.out.println("ERRO de inserção"+e);
 		}finally {
 			try {
 				this.com.close();
@@ -82,6 +83,37 @@ public class HospedeReservaDAO {
 				e.printStackTrace();
 			}
 		}
+		return response;
+	}
+	public int update(HospedeReserva hospedeReserva){
+		String query = "update hospede_reserva set id_reserva = ?, cpf_hospede = ?, data_inicio = ?, data_fim = ? where id_reserva = ? and cpf_hospede = ?";
+		int response = 0;
+		
+		try {
+			this.com = this.baseCom.getConnection();
+			PreparedStatement stmt = this.com.prepareStatement(query);
+			
+			stmt.setInt(1, hospedeReserva.getIdReserva());
+			stmt.setString(2, hospedeReserva.getCpfHospede());
+			stmt.setDate(3, new java.sql.Date(hospedeReserva.getInicioData().getTimeInMillis()));
+			stmt.setDate(4, new java.sql.Date(hospedeReserva.getFimData().getTimeInMillis()));
+			stmt.setInt(5, hospedeReserva.getIdReserva());
+			stmt.setString(6, hospedeReserva.getCpfHospede());
+			
+			response = stmt.executeUpdate();
+			stmt.close();
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("ERRO de inserção"+e);
+		}finally {
+			try {
+				this.com.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return response;
 	}
 
 }
