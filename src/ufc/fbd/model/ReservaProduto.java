@@ -6,9 +6,13 @@ import java.util.Calendar;
 
 public class ReservaProduto {
 	public int idReserva;
-	public Calendar data;
+	public String hospede;
 	public String cpfHospede;
+	public String produto;
 	public int idProduto;
+	public double preco;
+	public Calendar dataCompra;
+	
 	public ReservaProduto() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -26,21 +30,39 @@ public class ReservaProduto {
 	public void setIdReserva(int idReserva) {
 		this.idReserva = idReserva;
 	}
+	public String getHospede() {
+		return hospede;
+	}
+	public void setHospede(String hospede) {
+		this.hospede = hospede;
+	}
+	public String getProduto() {
+		return produto;
+	}
+	public void setProduto(String produto) {
+		this.produto = produto;
+	}
+	public double getPreco() {
+		return preco;
+	}
+	public void setPreco(double preco) {
+		this.preco = preco;
+	}
 	public Calendar getData() {
-		return data;
+		return dataCompra;
 	}
 	public String showData() {
 		SimpleDateFormat dataForm = new SimpleDateFormat("dd/MM/yyyy");
-		return dataForm.format(this.data.getTime());
+		return dataForm.format(this.dataCompra.getTime());
 	}
 	public void setData(Calendar data) {
-		this.data = data;
+		this.dataCompra = data;
 	}
 	public void setData(String data) {
 		SimpleDateFormat dataForm = new SimpleDateFormat("dd/MM/yyyy");
-		this.data  =  Calendar.getInstance();
+		this.dataCompra  =  Calendar.getInstance();
 		try {
-			this.data.setTime(dataForm.parse(data));
+			this.dataCompra.setTime(dataForm.parse(data));
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			System.out.println("Data Informada invalida");
@@ -62,10 +84,10 @@ public class ReservaProduto {
 	@Override
 	public String toString() {
 		SimpleDateFormat dataForm = new SimpleDateFormat("dd/MM/yyyy");
-		String date = dataForm.format(data.getTime());
-		return "ReservaProduto [idReserva=" + idReserva + ", data=" + date + ", cpfHospede=" + cpfHospede
-				+ ", idProduto=" + idProduto + "]";
+		String date = dataForm.format(dataCompra.getTime());
+		return "ReservaProduto [idReserva=" + idReserva + ", hospede=" + hospede + ", cpfHospede=" + cpfHospede
+				+ ", produto=" + produto + ", idProduto=" + idProduto + ", preco=" + preco + ", data da compra="
+				+ date + "]";
 	}
-	
 	
 }

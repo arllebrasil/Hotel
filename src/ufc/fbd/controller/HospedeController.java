@@ -10,8 +10,8 @@ import ufc.fbd.model.Hospede;
 import ufc.fbd.model.Telefone;
 
 public class HospedeController {
-	HospedeDAO hospedeDao = null;
-	TelefoneDAO telefoneDao = null;
+	private HospedeDAO hospedeDao = null;
+	private TelefoneDAO telefoneDao = null;
 	
 	public HospedeController() {
 		this.hospedeDao = new HospedeDAO(new FbdConnection());
@@ -59,7 +59,7 @@ public class HospedeController {
 		}while(continuar);
 	}
 
-	private void option1() {
+	public void option1() {
 		// TODO Auto-generated method stub
 		ArrayList<Hospede> allHospede = this.hospedeDao.find();
 		for (Hospede hospede : allHospede) {
@@ -67,7 +67,7 @@ public class HospedeController {
 		}
 	}
 
-	private void option2() {
+	public void option2() {
 		// TODO Auto-generated method stub
 		Input input = new Input();
 		Hospede newHospede = input.createHospede(); 
@@ -79,7 +79,7 @@ public class HospedeController {
 		}
 	}
 
-	private void option3() {
+	public void option3() {
 		// TODO Auto-generated method stub
 		Input input = new Input();
 		boolean continuar = true;
@@ -113,7 +113,7 @@ public class HospedeController {
 		} while (continuar);	
 	}
 
-	private void option4() {
+	public void option4() {
 		// TODO Auto-generated method stub
 		boolean continuar = true;
 		do {
@@ -137,7 +137,7 @@ public class HospedeController {
 		
 	}
 
-	private void option5() {
+	public void option5() {
 		// TODO Auto-generated method stub
 		ArrayList<Telefone> allTelefone = telefoneDao.find();
 		for (Telefone telefone : allTelefone) {
@@ -145,7 +145,7 @@ public class HospedeController {
 		}
 	}
 
-	private void option6(){
+	public void option6(){
 		// TODO Auto-generated method stub
 		Input input = new Input();
 		System.out.println("Informe uma lista de Telefones para Inseridos.\nObs: Telefones com cpf inexistentes seram descartados da operação!");
@@ -154,7 +154,7 @@ public class HospedeController {
 			telefoneDao.create(telefone);
 		}
 	}
-	private void option7() {
+	public void option7() {
 		// TODO Auto-generated method stub
 		Input input = new Input();
 		System.out.println("Informe uma lista de Telefones para removidos.\nObs: Telefones com cpf inexistentes seram descartados da operação!");

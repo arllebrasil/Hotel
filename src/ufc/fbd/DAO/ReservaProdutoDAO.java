@@ -17,7 +17,7 @@ public class ReservaProdutoDAO {
 		this.baseCom = fbdConnection;
 	}
 	public ArrayList<ReservaProduto> find(){
-		String query = "select * from reserva_produto";
+		String query = "select * from venda_produto";
 		ArrayList<ReservaProduto> allReservaPro = new ArrayList<ReservaProduto>();
 		try {
 			this.com = this.baseCom.getConnection();
@@ -28,20 +28,23 @@ public class ReservaProdutoDAO {
 				ReservaProduto reservaPro = new ReservaProduto();
 
 				reservaPro.setIdReserva(response.getInt("id_reserva"));
-				reservaPro.setCpfHospede(response.getString("cpf_hospede"));
+				reservaPro.setHospede(response.getString("hospede"));
+				reservaPro.setCpfHospede(response.getString("cpf"));
+				reservaPro.setProduto(response.getString("produto"));
+				reservaPro.setIdProduto(response.getInt("id_produto"));
+				reservaPro.setPreco(response.getDouble("preco"));
 				
 				Calendar data = Calendar.getInstance();
-				data.setTime(response.getDate("data"));
+				data.setTime(response.getDate("data_compra"));
 				reservaPro.setData(data);
 				
-				reservaPro.setIdProduto(response.getInt("id_produto"));
 				allReservaPro.add(reservaPro);
 			}
 			response.close();
 			stmt.close();
 		} catch (Exception e) {
 			// TODO: handle exception
-			System.out.println("Erro na Leitura dos dados:"+e);
+			System.out.println("ERRO"+e);
 		}finally {
 			try {
 				this.com.close();
@@ -52,22 +55,37 @@ public class ReservaProdutoDAO {
 		}
 		return allReservaPro;
 	}
-	public void create(ReservaProduto reservaProduto) {
-		String query = "insert into reserva_produto values (?,?,?,?)";
+	public ReservaProduto findOne( ReservaProduto oldReservaPro){
+		String query = "select * from venda_produto where id_reserva = ? and cpf = ? and id_produto = ?";
+		ReservaProduto reservaPro = null;
 		try {
 			this.com = this.baseCom.getConnection();
 			PreparedStatement stmt = this.com.prepareStatement(query);
+			stmt.setInt(1, oldReservaPro.getIdReserva());
+			stmt.setString(2, oldReservaPro.getCpfHospede());
+			stmt.setInt(3, oldReservaPro.getIdProduto());
 			
-			stmt.setInt(1, reservaProduto.getIdReserva());
-			stmt.setDate(2,new java.sql.Date(reservaProduto.getData().getTimeInMillis()));
-			stmt.setString(3,reservaProduto.getCpfHospede());		
-			stmt.setInt(4,reservaProduto.getIdProduto());
-			int response = stmt.executeUpdate();
+			ResultSet response = stmt.executeQuery();
 			
+			if (response.next()) {
+				reservaPro = new ReservaProduto();
+
+				reservaPro.setIdReserva(response.getInt("id_reserva"));
+				reservaPro.setHospede(response.getString("hospede"));
+				reservaPro.setCpfHospede(response.getString("cpf"));
+				reservaPro.setProduto(response.getString("produto"));
+				reservaPro.setIdProduto(response.getInt("id_produto"));
+				reservaPro.setPreco(response.getDouble("preco"));
+				
+				Calendar data = Calendar.getInstance();
+				data.setTime(response.getDate("data_compra"));
+				reservaPro.setData(data);
+			}
+			response.close();
 			stmt.close();
 		} catch (Exception e) {
 			// TODO: handle exception
-			System.out.println("Erro na inserção dos dados:"+e);
+			System.out.println("ERRO"+e);
 		}finally {
 			try {
 				this.com.close();
@@ -76,11 +94,40 @@ public class ReservaProdutoDAO {
 				e.printStackTrace();
 			}
 		}
+		return reservaPro;
 	}
-	public void update(ReservaProduto oldReservaProduto,ReservaProduto newReservaPro) {
+	public int create(ReservaProduto reservaProduto) {
+		String query = "insert into reserva_produto values (?,?,?,?)";
+		int response = 0;
+		try {
+			this.com = this.baseCom.getConnection();
+			PreparedStatement stmt = this.com.prepareStatement(query);
+			
+			stmt.setInt(1, reservaProduto.getIdReserva());
+			stmt.setDate(2,new java.sql.Date(reservaProduto.getData().getTimeInMillis()));
+			stmt.setString(3,reservaProduto.getCpfHospede());		
+			stmt.setInt(4,reservaProduto.getIdProduto());
+			response = stmt.executeUpdate();
+			
+			stmt.close();
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("ERRO "+e);
+		}finally {
+			try {
+				this.com.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return response;
+	}
+	public int update(ReservaProduto oldReservaProduto,ReservaProduto newReservaPro) {
 		String setQuery = "update reserva_produto set  id_reserva = ? , cpf_hospede = ?, data = ?, id_produto = ? ";
 		String whereQuery = "where id_reserva = ? and cpf_hospede = ? and data = ? and id_produto = ?";
 		String query = setQuery+whereQuery;
+		int response = 0;
 		try {
 			this.com = this.baseCom.getConnection();
 			PreparedStatement stmt = this.com.prepareStatement(query);
@@ -96,12 +143,12 @@ public class ReservaProdutoDAO {
 			stmt.setInt(8,oldReservaProduto.getIdProduto());
 			
 
-			int response = stmt.executeUpdate();
+			response = stmt.executeUpdate();
 			
 			stmt.close();
 		} catch (Exception e) {
 			// TODO: handle exception
-			System.out.println("Erro na atualização dos dados:"+e);
+			System.out.println("ERRO "+e);
 		}finally {
 			try {
 				this.com.close();
@@ -110,9 +157,11 @@ public class ReservaProdutoDAO {
 				e.printStackTrace();
 			}
 		}
+		return response;
 	}
-	public void delete(ReservaProduto oldReservaProduto) {
+	public int delete(ReservaProduto oldReservaProduto) {
 		String query = "delete from reserva_produto where id_reserva = ? and cpf_hospede = ? and data = ? and id_produto = ? ";
+		int response = 0;
 		try {
 			this.com = this.baseCom.getConnection();
 			PreparedStatement stmt = this.com.prepareStatement(query);
@@ -122,11 +171,11 @@ public class ReservaProdutoDAO {
 			stmt.setDate(3,new java.sql.Date(oldReservaProduto.getData().getTimeInMillis()));
 			stmt.setInt(4,oldReservaProduto.getIdProduto());
 			
-			int response = stmt.executeUpdate();
+			response = stmt.executeUpdate();
 			stmt.close();
 		} catch (Exception e) {
 			// TODO: handle exception
-			System.out.println("Erro na remoção dos dados:"+e);
+			System.out.println("ERRO "+e);
 		}finally {
 			try {
 				this.com.close();
@@ -135,5 +184,6 @@ public class ReservaProdutoDAO {
 				e.printStackTrace();
 			}
 		}
+		return response;
 	}
 }
