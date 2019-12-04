@@ -38,6 +38,7 @@ public class QuartoDAO {
 			stmt.close();
 		} catch (Exception e) {
 			// TODO: handle exception
+			System.out.println("ERRO "+e);
 		}finally {
 			try {
 				this.com.close();
@@ -69,6 +70,7 @@ public class QuartoDAO {
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
+			System.out.println("ERRO "+e);
 		}finally {
 			try {
 				this.com.close();
@@ -105,6 +107,7 @@ public class QuartoDAO {
 			stmt.close();
 		} catch (Exception e) {
 			// TODO: handle exception
+			System.out.println("ERRO "+e);
 		}finally {
 			try {
 				this.com.close();
@@ -131,6 +134,7 @@ public class QuartoDAO {
 			stmt.close();
 		} catch (Exception e) {
 			// TODO: handle exception
+			System.out.println("ERRO "+e);
 		}finally {
 			try {
 				this.com.close();
@@ -165,6 +169,7 @@ public class QuartoDAO {
 				this.com.close();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
+				System.out.println("ERRO "+e);
 				e.printStackTrace();
 			}
 		}
@@ -188,6 +193,7 @@ public class QuartoDAO {
 			stmt.close();
 		} catch (Exception e) {
 			// TODO: handle exception
+			System.out.println("ERRO "+e);
 		}finally {
 			try {
 				this.com.close();

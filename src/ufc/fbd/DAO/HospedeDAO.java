@@ -47,7 +47,7 @@ public class HospedeDAO {
 			}
 			response.close();
 		} catch (SQLException e) {
-			System.out.println("Erro SqlConnector");
+			System.out.println("ERRO "+e);
 			// TODO: handle exception
 		}finally {
 			try {
@@ -115,6 +115,7 @@ public class HospedeDAO {
 			stmt1.close();	
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
+			System.out.println("ERRO "+e);
 			e.printStackTrace();
 		}finally {
 			try {
@@ -150,6 +151,7 @@ public class HospedeDAO {
 			stmt.close();			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
+			System.out.println("ERRO "+e);
 			e.printStackTrace();
 		}finally {
 			try {
@@ -177,13 +179,13 @@ public class HospedeDAO {
 			stmt.setString(5,cliente.getEndBairro());
 			stmt.setString(6,cliente.getEndRua());
 			stmt.setString(7,cliente.getEndCidade());
-			stmt.setInt(8,cliente.endCEP);
+			stmt.setInt(8,cliente.getEndCEP());
 			
 			response = stmt.executeUpdate();
 			stmt.close();			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			System.out.println("ERRO de inserção"+e);
+			System.out.println("ERRO "+e);
 			e.printStackTrace();
 		}finally {
 			try {

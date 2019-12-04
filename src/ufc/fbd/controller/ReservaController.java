@@ -59,14 +59,14 @@ public class ReservaController {
 		}while(continuar);
 	}
 
-	private void option1() {
+	public void option1() {
 		// TODO Auto-generated method stub
 		ArrayList<ReservaCompleta> allReservas = reservaDao.find();
 		for (ReservaCompleta reservaCompleta : allReservas) {
 			System.out.println(reservaCompleta.toString());
 		}
 	}
-	private void option2() {
+	public void option2() {
 		Reserva newReserva = null;
 		HospedeReserva newHospReserva = null;
 		Input input = new Input();
@@ -92,7 +92,7 @@ public class ReservaController {
 			}
 		}
 	}
-	private void option3() {
+	public void option3() {
 		Reserva upReserva = null;
 		HospedeReserva upHopReserva = null;
 		Input input = new Input();
@@ -119,7 +119,7 @@ public class ReservaController {
 		
 		
 	}
-	private void option4() {
+	public void option4() {
 		Input input = new Input();
 		Reserva delReserva = input.createReserva();
 		

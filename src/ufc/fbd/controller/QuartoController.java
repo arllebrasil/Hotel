@@ -8,7 +8,8 @@ import ufc.fbd.config.FbdConnection;
 import ufc.fbd.model.Quarto;
 
 public class QuartoController {
-	QuartoDAO quartoDao = null;
+	private QuartoDAO quartoDao = null;
+	
 	public QuartoController() {
 		this.quartoDao = new QuartoDAO(new FbdConnection());
 	}
@@ -46,14 +47,14 @@ public class QuartoController {
 			}
 		} while (continuar);
 	}
-	private void option1() {
+	public void option1() {
 		// TODO Auto-generated method stub
 		ArrayList<Quarto> allQuartos = quartoDao.find();
 		for (Quarto quarto : allQuartos) {
 			System.out.println(quarto.toString());
 		}
 	}
-	private void option2() {
+	public void option2() {
 		// TODO Auto-generated method stub
 		Input input = new Input();
 		System.out.println("\nPreencha os dados do novo quarto!\n");
@@ -65,7 +66,7 @@ public class QuartoController {
 			System.out.println("A operação foi cancelada...");
 		}
 	}
-	private void option3() {
+	public void option3() {
 		// TODO Auto-generated method stub
 		Input input = new Input();
 		
@@ -89,7 +90,7 @@ public class QuartoController {
 				System.out.println("Nenhum quarto com numero " +oldId+ " foi encontrado\nOperação cancelada...");
 		}
 	}
-	private void option4() {
+	public void option4() {
 		// TODO Auto-generated method stub
 		System.out.println("\nInforme o numero do quarto para ser removido!\n");
 		Scanner scanner = new Scanner(System.in);

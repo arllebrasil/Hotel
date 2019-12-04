@@ -31,7 +31,7 @@ public class TelefoneDAO {
 			stmt.close();
 		} catch (Exception e) {
 			// TODO: handle exception
-			System.out.println("Erro de inserção"+e);
+			System.out.println("ERRO "+e);
 		}finally {
 			try {
 				this.com.close();
@@ -57,6 +57,7 @@ public class TelefoneDAO {
 			stmt.close();
 		} catch (Exception e) {
 			// TODO: handle exception
+			System.out.println("ERRO "+e);
 		}finally {
 			try {
 				this.com.close();
@@ -80,6 +81,7 @@ public class TelefoneDAO {
 			stmt.close();
 		} catch (Exception e) {
 			// TODO: handle exception
+			System.out.println("ERRO "+e);
 		}finally {
 			try {
 				this.com.close();
@@ -109,6 +111,7 @@ public class TelefoneDAO {
 			stmt.close();
 		} catch (Exception e) {
 			// TODO: handle exception
+			System.out.println("ERRO "+e);
 		}finally {
 			try {
 				this.com.close();

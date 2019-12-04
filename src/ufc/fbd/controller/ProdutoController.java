@@ -8,7 +8,7 @@ import ufc.fbd.config.FbdConnection;
 import ufc.fbd.model.Produto;
 
 public class ProdutoController {
-	ProdutoDAO produtoDao = null;
+	private ProdutoDAO produtoDao = null;
 	public ProdutoController() {
 		this.produtoDao = new ProdutoDAO(new FbdConnection());
 	}
@@ -46,7 +46,7 @@ public class ProdutoController {
 			}
 		} while (continuar);
 	}
-	private void option1() {
+	public void option1() {
 		// TODO Auto-generated method stub
 		ArrayList<Produto> allProduto = this.produtoDao.find();
 		for (Produto produto : allProduto) {
@@ -54,7 +54,7 @@ public class ProdutoController {
 		}
 		
 	}
-	private void option2() {
+	public void option2() {
 		// TODO Auto-generated method stub
 		Input input = new Input();
 		System.out.println("Informe os dados do produto que deseja Registrar!");
@@ -66,7 +66,7 @@ public class ProdutoController {
 			System.out.println("Operação cancelada...");
 		}
 	}
-	private void option3() {
+	public void option3() {
 		// TODO Auto-generated method stub
 		Input input = new Input();
 		
@@ -93,7 +93,7 @@ public class ProdutoController {
 			System.out.println("Nenhum Produto com id = "+oldId+"foi encontrado. Operação cancelada...");
 		}
 	}
-	private void option4() {
+	public void option4() {
 		// TODO Auto-generated method stub
 Input input = new Input();
 		

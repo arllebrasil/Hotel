@@ -74,7 +74,7 @@ public class HospedeReservaDAO {
 			stmt.close();
 		} catch (Exception e) {
 			// TODO: handle exception
-			System.out.println("ERRO de inserção"+e);
+			System.out.println("ERRO "+e);
 		}finally {
 			try {
 				this.com.close();
@@ -104,7 +104,7 @@ public class HospedeReservaDAO {
 			stmt.close();
 		} catch (Exception e) {
 			// TODO: handle exception
-			System.out.println("ERRO de inserção"+e);
+			System.out.println("ERRO "+e);
 		}finally {
 			try {
 				this.com.close();

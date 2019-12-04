@@ -18,7 +18,7 @@ public class ReservaServicoDAO {
 		this.baseCom = fbdConnection;
 	}
 	public ArrayList<ReservaServico> find(){
-		String query = "select * from reserva_servico";
+		String query = "select * from venda_servico";
 		ArrayList<ReservaServico> allReservaServ = new ArrayList<ReservaServico>();
 		try {
 			this.com = this.baseCom.getConnection();
@@ -29,20 +29,23 @@ public class ReservaServicoDAO {
 				ReservaServico reservaServ = new ReservaServico();
 
 				reservaServ.setIdReserva(response.getInt("id_reserva"));
+				reservaServ.setHospede(response.getString("hospede"));
+				reservaServ.setCpfHospede(response.getString("cpf"));
+				reservaServ.setServico(response.getString("servico"));
+				reservaServ.setIdServico(response.getInt("id_servico"));
+				reservaServ.setPreco(response.getDouble("preco"));
 				
 				Calendar data = Calendar.getInstance();
-				data.setTime(response.getDate("data"));
+				data.setTime(response.getDate("data_compra"));
 				reservaServ.setData(data);
 				
-				reservaServ.setCpfHospede(response.getString("cpf_hospede"));
-				reservaServ.setIdServico(response.getInt("id_servico"));
 				allReservaServ.add(reservaServ);
 			}
 			response.close();
 			stmt.close();
 		} catch (Exception e) {
 			// TODO: handle exception
-			System.out.println("Erro na Leitura dos dados:"+e);
+			System.out.println("ERRO"+e);
 		}finally {
 			try {
 				this.com.close();
@@ -53,8 +56,50 @@ public class ReservaServicoDAO {
 		}
 		return allReservaServ;
 	}
-	public void create(ReservaServico reservaServico) {
+	public ReservaServico findOne( ReservaServico oldReservaServ){
+		String query = "select * from venda_servico where id_reserva = ? and cpf = ? and id_servico = ?";
+		ReservaServico reservaServ = null;
+		try {
+			this.com = this.baseCom.getConnection();
+			PreparedStatement stmt = this.com.prepareStatement(query);
+			stmt.setInt(1, oldReservaServ.getIdReserva());
+			stmt.setString(2, oldReservaServ.getCpfHospede());
+			stmt.setInt(3, oldReservaServ.getIdServico());
+			
+			ResultSet response = stmt.executeQuery();
+			
+			if (response.next()) {
+				reservaServ = new ReservaServico();
+
+				reservaServ.setIdReserva(response.getInt("id_reserva"));
+				reservaServ.setHospede(response.getString("hospede"));
+				reservaServ.setCpfHospede(response.getString("cpf"));
+				reservaServ.setServico(response.getString("servico"));
+				reservaServ.setIdServico(response.getInt("id_servico"));
+				reservaServ.setPreco(response.getDouble("preco"));
+				
+				Calendar data = Calendar.getInstance();
+				data.setTime(response.getDate("data_compra"));
+				reservaServ.setData(data);
+			}
+			response.close();
+			stmt.close();
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("ERRO"+e);
+		}finally {
+			try {
+				this.com.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return reservaServ;
+	}
+	public int create(ReservaServico reservaServico) {
 		String query = "insert into reserva_servico values (?,?,?,?)";
+		int response = 0;
 		try {
 			this.com = this.baseCom.getConnection();
 			PreparedStatement stmt = this.com.prepareStatement(query);
@@ -64,11 +109,11 @@ public class ReservaServicoDAO {
 			stmt.setString(3,reservaServico.getCpfHospede());		
 			stmt.setInt(4,reservaServico.getIdServico());
 			
-			int response = stmt.executeUpdate();
+			response = stmt.executeUpdate();
 			stmt.close();
 		} catch (Exception e) {
 			// TODO: handle exception
-			System.out.println("Erro na inserção dos dados:"+e);
+			System.out.println("ERRO "+e);
 		}finally {
 			try {
 				this.com.close();
@@ -77,11 +122,13 @@ public class ReservaServicoDAO {
 				e.printStackTrace();
 			}
 		}
+		return response;
 	}
-	public void update(ReservaServico oldReservaServico,ReservaServico newReservaServico) {
+	public int update(ReservaServico oldReservaServico,ReservaServico newReservaServico) {
 		String setQuery = "update reserva_servico set  id_reserva = ? , cpf_hospede = ?, data = ?, id_servico = ? ";
 		String whereQuery = "where id_reserva = ? and cpf_hospede = ? and data = ? and id_servico = ?";
 		String query = setQuery+whereQuery;
+		int response = 0;
 		try {
 			this.com = this.baseCom.getConnection();
 			PreparedStatement stmt = this.com.prepareStatement(query);
@@ -96,11 +143,11 @@ public class ReservaServicoDAO {
 			stmt.setDate(7,new java.sql.Date(oldReservaServico.getData().getTimeInMillis()));
 			stmt.setInt(8,oldReservaServico.getIdServico());
 			
-			int response = stmt.executeUpdate();
+			response = stmt.executeUpdate();
 			stmt.close();
 		} catch (Exception e) {
 			// TODO: handle exception
-			System.out.println("Erro na atualização dos dados:"+e);
+			System.out.println("ERRO "+e);
 		}finally {
 			try {
 				this.com.close();
@@ -109,9 +156,11 @@ public class ReservaServicoDAO {
 				e.printStackTrace();
 			}
 		}
+		return response;
 	}
-	public void delete(ReservaServico oldReservaServico) {
+	public int delete(ReservaServico oldReservaServico) {
 		String query = "delete from reserva_servico where id_reserva = ? and cpf_hospede = ? and data = ? and id_servico = ? ";
+		int response = 0;
 		try {
 			this.com = this.baseCom.getConnection();
 			PreparedStatement stmt = this.com.prepareStatement(query);
@@ -121,11 +170,11 @@ public class ReservaServicoDAO {
 			stmt.setDate(3,new java.sql.Date(oldReservaServico.getData().getTimeInMillis()));
 			stmt.setInt(4,oldReservaServico.getIdServico());
 			
-			int response = stmt.executeUpdate();
+			response = stmt.executeUpdate();
 			stmt.close();
 		} catch (Exception e) {
 			// TODO: handle exception
-			System.out.println("Erro na remoção dos dados:"+e);
+			System.out.println("ERRO "+e);
 		}finally {
 			try {
 				this.com.close();
@@ -134,5 +183,6 @@ public class ReservaServicoDAO {
 				e.printStackTrace();
 			}
 		}
+		return response;
 	}
 }

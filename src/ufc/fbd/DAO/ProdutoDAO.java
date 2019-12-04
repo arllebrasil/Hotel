@@ -38,7 +38,7 @@ public class ProdutoDAO {
 			stmt.close();
 		} catch (Exception e) {
 			// TODO: handle exception
-			System.out.println("ERRO:"+e);
+			System.out.println("ERRO "+e);
 		}finally {
 			try {
 				this.com.close();
@@ -97,7 +97,7 @@ public class ProdutoDAO {
 			stmt.close();
 		} catch (Exception e) {
 			// TODO: handle exception
-			System.out.println("ERRO:"+e);
+			System.out.println("ERRO "+e);
 		}finally {
 			try {
 				this.com.close();

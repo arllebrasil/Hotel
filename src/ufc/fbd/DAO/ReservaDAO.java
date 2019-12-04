@@ -50,6 +50,7 @@ public class ReservaDAO {
 			stmt.close();
 		} catch (Exception e) {
 			// TODO: handle exception
+			System.out.println("ERRO "+e);
 		}finally {
 			try {
 				this.com.close();
@@ -61,24 +62,37 @@ public class ReservaDAO {
 		
 		return allReserva;	
 	}
-	public Reserva findOne(int id){
-		String query = "select * from reserva  where id_reserva  = ?";
-		Reserva reserva = null;
+	public ReservaCompleta findOne(int id_reserva, String cpf){
+		String query = "select * from reserva_completa where id_reserva = ? and cpf = ?";
+		ReservaCompleta reservaCompleta = null;
+		
 		try {
 			this.com = this.baseCom.getConnection();
 			PreparedStatement stmt = com.prepareStatement(query);
-			stmt.setInt(1,id);
+			stmt.setInt(1, id_reserva);
+			stmt.setString(2, cpf);
 			ResultSet response = stmt.executeQuery();
 			if (response.next()) {
-				reserva = new Reserva();
-				reserva.setIdReserva(response.getInt("id_reserva"));
-				reserva.setCpfHospede(response.getString("cpf_hospede"));
-				reserva.setIdReserva(response.getInt("id_quarto"));	
+				reservaCompleta = new ReservaCompleta();
+				reservaCompleta.setIdReserva(response.getInt("id_reserva"));
+				reservaCompleta.setNome(response.getString("nome"));
+				reservaCompleta.setCpfHospede(response.getString("cpf"));
+				reservaCompleta.setQuartoId(response.getInt("num_quarto"));
+				reservaCompleta.setDiaria(response.getDouble("diaria"));
+				
+				Calendar calendar = Calendar.getInstance();
+				calendar.setTime(response.getDate("data_inicio"));
+				reservaCompleta.setInicioData(calendar);
+				
+				Calendar calendar2  = Calendar.getInstance();
+				calendar2.setTime(response.getDate("data_fim"));
+				reservaCompleta.setFimData(calendar2);
 			}
 			response.close();
 			stmt.close();
 		} catch (Exception e) {
 			// TODO: handle exception
+			System.out.println("ERRO "+e);
 		}finally {
 			try {
 				this.com.close();
@@ -88,7 +102,7 @@ public class ReservaDAO {
 			}
 		}
 		
-		return reserva;	
+		return reservaCompleta;	
 	}
 	public int create(Reserva reserva){
 		String query = "insert into reserva values (?,?,?)";
@@ -133,7 +147,7 @@ public class ReservaDAO {
 			stmt.close();
 		} catch (Exception e) {
 			// TODO: handle exception
-			System.out.println("ERRO na alterção"+e);
+			System.out.println("ERRO "+e);
 		}finally {
 			try {
 				this.com.close();
@@ -159,7 +173,7 @@ public class ReservaDAO {
 			stmt.close();
 		} catch (Exception e) {
 			// TODO: handle exception
-			System.out.println("ERRO de remoção:"+e);
+			System.out.println("ERRO "+e);
 		}finally {
 			try {
 				this.com.close();

@@ -8,7 +8,7 @@ import ufc.fbd.config.FbdConnection;
 import ufc.fbd.model.Servico;
 
 public class ServicoController {
-	ServicoDAO servicoDao = null;
+	private ServicoDAO servicoDao = null;
 	public ServicoController() {
 		this.servicoDao = new ServicoDAO(new FbdConnection());
 	}
@@ -46,7 +46,7 @@ public class ServicoController {
 			}
 		} while (continuar);
 	}
-	private void option1() {
+	public void option1() {
 		// TODO Auto-generated method stub
 		ArrayList<Servico> allServico = this.servicoDao.find();
 		for (Servico servico : allServico) {
@@ -54,7 +54,7 @@ public class ServicoController {
 		}
 		
 	}
-	private void option2() {
+	public void option2() {
 		// TODO Auto-generated method stub
 		Input input = new Input();
 		System.out.println("Informe os dados do serviços que deseja Registrar!");
@@ -66,7 +66,7 @@ public class ServicoController {
 			System.out.println("Operação cancelada...");
 		}
 	}
-	private void option3() {
+	public void option3() {
 		// TODO Auto-generated method stub
 		Input input = new Input();
 		
@@ -93,9 +93,9 @@ public class ServicoController {
 			System.out.println("Nenhum serviço com id = "+oldId+"foi encontrado. Operação cancelada...");
 		}
 	}
-	private void option4() {
+	public void option4() {
 		// TODO Auto-generated method stub
-Input input = new Input();
+		Input input = new Input();
 		
 		System.out.println("Informe os dados do produto que deseja Remover!");
 		Scanner scanner = new Scanner(System.in);
