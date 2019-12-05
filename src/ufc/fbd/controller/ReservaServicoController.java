@@ -8,6 +8,7 @@ import ufc.fbd.DAO.ReservaServicoDAO;
 import ufc.fbd.DAO.ServicoDAO;
 import ufc.fbd.config.FbdConnection;
 import ufc.fbd.model.ReservaCompleta;
+import ufc.fbd.model.ReservaProduto;
 import ufc.fbd.model.ReservaServico;
 import ufc.fbd.model.Servico;
 
@@ -19,13 +20,17 @@ public class ReservaServicoController {
 	public void start() {
 		boolean continuar = true;
 		do {
-			System.out.println("################            Controle de vendas de Serviços            ################ \n"
-					+ "1- Listar vendas de Serviços, 2- Registrar uma vendas de Serviços, 3- Alterar vendas de Serviços,"
+			System.out.println("################                    Controle de vendas de Serviços                     ################ \n"
+					+ "0- Listar vendas de Serviços p/Hospede, 1- Listar vendas de Serviços, 2- Registrar uma vendas de Serviços, 3- Alterar vendas de Serviços,"
 					+ "4- Remover venda de Serviços do sistema (Cancelar venda),\n5- Consutar Reservas, 6- Consutar Serviços , ENTER para SAIR !....");
 			Scanner scanner = new Scanner(System.in);
 			String option = scanner.nextLine();
 			
 			switch (option) {
+			case "0":
+				System.out.println("###########        Listar Vendas de Serviços  p/Hospede      ###########\n");
+				this.option0();
+				break;
 			case "1":
 				System.out.println("###########        Listar Vendas de Serviços        ###########\n");
 				this.option1();
@@ -51,13 +56,30 @@ public class ReservaServicoController {
 				this.option6();
 				break;
 			case "":
-				System.out.println("###########        ..........................        ###########\n");
 				continuar = false;
+				System.out.println("################                     .................                    ################\n");
 				break;
 			default:
 				break;
 			}
 		} while (continuar);
+	}
+	private void option0() {
+		// TODO Auto-generated method stub
+		Scanner scanner = new Scanner(System.in);
+		System.out.println("Informe os dados do hospede (CPF,Nome)");
+		String cpf = scanner.nextLine();
+		Scanner scanner2 = new Scanner(System.in);
+		String nome = scanner2.nextLine();
+		
+		double total = 0;
+		ArrayList<ReservaServico> allReservaServ = reservaServDao.show(cpf,nome);
+		
+		for (ReservaServico reservaServico : allReservaServ) {
+			System.out.println(reservaServico.toString());
+			total += reservaServico.getPreco();
+		}
+		System.out.println("\nNumero de compras: "+ allReservaServ.size()+"\nTotal: "+total);
 	}
 	public void option1() {
 		// TODO Auto-generated method stub

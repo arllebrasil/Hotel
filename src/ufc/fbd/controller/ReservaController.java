@@ -27,38 +27,48 @@ public class ReservaController {
 		boolean continuar = true;
 		do {
 			Scanner scanner = new Scanner(System.in);
-			System.out.println("##### Controle de Reservas #####\n"
+			System.out.println("################                    Controle de Reservas                    ################\n"
 					+ "1- Listar Reservas, 2- Registrar reserva, 3 - Alterar reserva, "
-					+ "4 - Remover reserva, Para retonar aperte ENTER");
+					+ "4 - Remover reserva, Para retonar aperte, 5 - Consutar Hospedes, 6- Consutar Quartos, ENTER para sair");
 			
 			String option = scanner.nextLine();
 			switch (option) {
 			case "1":
-				System.out.println("##### Lista de Reservas #####\n");
+				System.out.println("################                     Lista de Reservas                    ################\n");
 				this.option1();
 				break;
 			case "2":
-				System.out.println("##### Registrar reserva #####\n");
+				System.out.println("################                     Registrar reserva                    ################\n");
 				this.option2();
 				break;
 			case "3":
-				System.out.println("##### Alterar reserva #####\n");
+				System.out.println("################                     Alterar reserva                    ################\n");
 				this.option3();
 				break;
 			case "4":
-				System.out.println("##### Remover reserva #####\n");
+				System.out.println("################                     Remover reserva                    ################\n");
 				this.option4();
 				break;
+			case "5":
+				System.out.println("################                     Hospedes                    ################\n");
+				this.option5();
+				break;
+			case "6":
+				System.out.println("################                     Quartos                    ################\n");
+				this.option6();
+				break;
 			case "":
-				System.out.println("##### Saindo de reservas #####\n");
 				continuar = false;
+				System.out.println("################                     .................                    ################\n");
 				break;
 			default:
 				break;
 			}
 		}while(continuar);
 	}
-
+	private void option0() {
+		
+	}
 	public void option1() {
 		// TODO Auto-generated method stub
 		ArrayList<ReservaCompleta> allReservas = reservaDao.find();
@@ -130,5 +140,14 @@ public class ReservaController {
 			System.out.println("A remoção foi cancelada!!!");
 		}
 		
+	}
+	private void option6() {
+		// TODO Auto-generated method stub
+		new QuartoController().option1();
+	}
+
+	private void option5() {
+		// TODO Auto-generated method stub
+		new HospedeController().option1();
 	}
 }

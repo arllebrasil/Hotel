@@ -15,7 +15,7 @@ public class ServicoController {
 	public void start() {
 		boolean continuar = true;
 		do {
-			System.out.println("\n#################          Controle de Serviços         #################\n"
+			System.out.println("\n#################                    Controle de Serviços                    #################\n"
 					+ "\n1- Listar Serviços, 2- Registrar Serviços, 3- Alterar Serviços, 4 - Remover Serviços, ENTER para sair");
 			Scanner scanner = new Scanner(System.in);
 			String option = scanner.nextLine();
@@ -38,8 +38,8 @@ public class ServicoController {
 				this.option4();
 				break;
 			case "":
-				System.out.println("\n#################          ................         #################\n");
 				continuar = false;
+				System.out.println("################                     .................                    ################\n");
 				break;
 			default:
 				break;
