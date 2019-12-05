@@ -23,13 +23,17 @@ public class ReservaProdutoController {
 	public void start() {
 		boolean continuar = true;
 		do {
-			System.out.println("################            Controle de vendas de Produtos            ################ \n"
-					+ "1- Listar vendas de produtos, 2- Registrar uma vendas de produtos, 3- Alterar vendas de produtos,"
+			System.out.println("################                    Controle de vendas de Produtos                    ################ \n"
+					+ "0- Listar Vendas de Produtos/Hospede, 1- Listar vendas de produtos, 2- Registrar uma vendas de produtos, 3- Alterar vendas de produtos,"
 					+ "4- Remover venda do sistema (Cancelar venda),\n5- Consutar Reservas, 6- Consutar Produtos , ENTER para SAIR !....");
 			Scanner scanner = new Scanner(System.in);
 			String option = scanner.nextLine();
 			
 			switch (option) {
+			case "0":
+				System.out.println("###########        Listar Vendas de Produtos p/Hospede6        ###########\n");
+				this.option0();
+				break;
 			case "1":
 				System.out.println("###########        Listar Vendas de Produtos        ###########\n");
 				this.option1();
@@ -55,13 +59,31 @@ public class ReservaProdutoController {
 				this.option6();
 				break;
 			case "":
-				System.out.println("###########        ..........................        ###########\n");
 				continuar = false;
+				System.out.println("################                     .................                    ################\n");
 				break;
 			default:
 				break;
 			}
 		} while (continuar);
+	}
+	private void option0() {
+		// TODO Auto-generated method stub
+		Scanner scanner = new Scanner(System.in);
+		System.out.println("Informe os dados do hospede (CPF,Nome)");
+		String cpf = scanner.nextLine();
+		Scanner scanner2 = new Scanner(System.in);
+		String nome = scanner2.nextLine();
+		
+		
+		double total = 0;
+		ArrayList<ReservaProduto> allReservaPro = reservaProDao.show(cpf,nome);
+		
+		for (ReservaProduto reservaProduto : allReservaPro) {
+			System.out.println(reservaProduto.toString());
+			total += reservaProduto.getPreco();
+		}
+		System.out.println("\nNumero de compras: "+ allReservaPro.size()+"\nTotal: "+total);
 	}
 	public void option1() {
 		// TODO Auto-generated method stub

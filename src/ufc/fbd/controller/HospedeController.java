@@ -20,7 +20,7 @@ public class HospedeController {
 	public void start() {
 		boolean continuar = true;
 		do {
-			System.out.println("\n################       Controle de Hospede       ################\n");
+			System.out.println("\n\n################                     Controle de Hospede                     ################\n\n");
 			System.out.println("1- Listar Hospedes, 2- Registrar Hospede, 3- Atualizar Hospede, 4- Remover Hospede,\n"
 					+ "5- Lista de Telefones, 6- Registra Telefone, 7- Remover Telefone, ENTER - para retornar!");
 			
@@ -51,6 +51,7 @@ public class HospedeController {
 				break;
 			case "":
 				continuar = false;
+				System.out.println("################                     .................                    ################\n");
 				break;
 
 			default:
@@ -87,7 +88,9 @@ public class HospedeController {
 			System.out.println("Informe os dados atuais do hospede!");
 			Scanner scanner = new Scanner(System.in);
 			
+			System.out.println("Cpf do hospede: ");
 			String oldCpf = scanner.nextLine();
+			System.out.println("Nome do hospede: ");
 			String oldNome = scanner.nextLine();
 			Hospede oldHospede = hospedeDao.findOne(oldCpf, oldNome);
 			

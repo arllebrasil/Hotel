@@ -56,6 +56,47 @@ public class ReservaServicoDAO {
 		}
 		return allReservaServ;
 	}
+	public ArrayList<ReservaServico> show(String cpf, String nome){
+		String query = "select * from venda_servico where cpf = ? or hospede = ?";
+		ArrayList<ReservaServico> allReservaServ = new ArrayList<ReservaServico>();
+		try {
+			this.com = this.baseCom.getConnection();
+			PreparedStatement stmt = this.com.prepareStatement(query);
+			stmt.setString(1,cpf);
+			stmt.setString(2,nome);
+			ResultSet response = stmt.executeQuery();
+			
+			while (response.next()) {
+				ReservaServico reservaServ = new ReservaServico();
+
+				reservaServ.setIdReserva(response.getInt("id_reserva"));
+				reservaServ.setHospede(response.getString("hospede"));
+				reservaServ.setCpfHospede(response.getString("cpf"));
+				reservaServ.setServico(response.getString("servico"));
+				reservaServ.setIdServico(response.getInt("id_servico"));
+				reservaServ.setPreco(response.getDouble("preco"));
+				
+				Calendar data = Calendar.getInstance();
+				data.setTime(response.getDate("data_compra"));
+				reservaServ.setData(data);
+				
+				allReservaServ.add(reservaServ);
+			}
+			response.close();
+			stmt.close();
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("ERRO"+e);
+		}finally {
+			try {
+				this.com.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return allReservaServ;
+	}
 	public ReservaServico findOne( ReservaServico oldReservaServ){
 		String query = "select * from venda_servico where id_reserva = ? and cpf = ? and id_servico = ?";
 		ReservaServico reservaServ = null;

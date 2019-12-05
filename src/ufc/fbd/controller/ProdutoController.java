@@ -15,7 +15,7 @@ public class ProdutoController {
 	public void start() {
 		boolean continuar = true;
 		do {
-			System.out.println("\n#################          Controle de Produtos         #################\n"
+			System.out.println("\n#################                    Controle de Produtos                    #################\n"
 					+ "\n1- Listar Produtos, 2- Registrar Produtos, 3- Alterar Produtos, 4 - Remover Produtos, ENTER para sair");
 			Scanner scanner = new Scanner(System.in);
 			String option = scanner.nextLine();
@@ -38,8 +38,8 @@ public class ProdutoController {
 				this.option4();
 				break;
 			case "":
-				System.out.println("\n#################          ................         #################\n");
 				continuar = false;
+				System.out.println("################                     .................                    ################\n");
 				break;
 			default:
 				break;
@@ -70,7 +70,7 @@ public class ProdutoController {
 		// TODO Auto-generated method stub
 		Input input = new Input();
 		
-		System.out.println("Informe os dados do produto que deseja Alterar!");
+		System.out.println("Informe os dados (id_Produto) do produto que deseja Alterar!");
 		Scanner scanner = new Scanner(System.in);
 		String produtoId = scanner.nextLine();
 		
@@ -78,7 +78,7 @@ public class ProdutoController {
 		Produto oldProduto = produtoDao.findOne(oldId);
 		
 		if(oldProduto != null) {
-			System.out.println(oldProduto.toString()+" encontrado!\nInforme os novos dados para alteração");
+			System.out.println(oldProduto.toString()+" encontrado!\nInforme os novos dados para alteração. Obs: Mantenha id_Produto!");
 			oldProduto = input.createProduto();
 			System.out.println(oldProduto+" Deseja confirmar a atualização S/N?");
 			

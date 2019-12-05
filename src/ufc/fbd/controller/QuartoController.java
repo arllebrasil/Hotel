@@ -16,7 +16,7 @@ public class QuartoController {
 	public void start() {
 		boolean continuar = true;
 		do {
-			System.out.println("\n#################          Controle de Quartos          #################\n"
+			System.out.println("\n#################                    Controle de Quartos                    #################\n"
 					+ "\n1- Listar Quartos, 2- Registrar Quarto, 3- Alterar Quarto, 4 - Remover Quarto, ENTER para sair");
 			Scanner scanner = new Scanner(System.in);
 			String option = scanner.nextLine();
@@ -39,8 +39,8 @@ public class QuartoController {
 				this.option4();
 				break;
 			case "":
-				System.out.println("\n#################          ................         #################\n");
 				continuar = false;
+				System.out.println("################                     .................                    ################\n");
 				break;
 			default:
 				break;
@@ -77,12 +77,21 @@ public class QuartoController {
 		Quarto oldQuarto = quartoDao.findOne(oldId);
 		
 		if (oldQuarto != null) {
-			System.out.println(oldQuarto.toString()+" Encontrado...");
-			System.out.println("Informe os novos dados a serem registrados!.\nObs: o numero do quarto não deve ser alterado!");
+			System.out.println(oldQuarto.toString()+" Encontrado...\n");
+			System.out.println("Informe os novos dados a serem registrados!.\nObs: o numero do quarto não deve ser alterado!\n");
 			Quarto newQuarto = input.createQuarto();
 			if (newQuarto != null) {
-				int response = this.quartoDao.update(newQuarto);
-				System.out.println((response >= 1)?response+" alterações concluidas!!!":"Ouve uma violação e a alteração foi cancelada!!!");
+				System.out.println(newQuarto.toString()+" Confirmar alteração S/N ?");
+				scanner = new Scanner(System.in);
+				String option = scanner.nextLine();
+				
+				if(option.equals("s")||option.equals("s")) {
+
+					int response = this.quartoDao.update(newQuarto);
+					System.out.println((response >= 1)?response+" alterações concluidas!!!":"Ouve uma violação e a alteração foi cancelada!!!");
+				}else {
+					System.out.println("Operação cancelada...");
+				}
 			} else {
 				System.out.println("Operação cancelada...");
 			}
